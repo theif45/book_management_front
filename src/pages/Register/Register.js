@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
-import React, { useState } from 'react';
-import LoginInput from '../../components/UI/Login/LoginInput/LoginInput';
-import { FiUser, FiLock } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
-import { BiRename } from 'react-icons/bi';
-import axios from 'axios';
+import { css } from "@emotion/react";
+import React, { useState } from "react";
+import LoginInput from "../../components/UI/Login/LoginInput/LoginInput";
+import { FiUser, FiLock } from "react-icons/fi";
+import { Link } from "react-router-dom";
+import { BiRename } from "react-icons/bi";
+import axios from "axios";
 
 const container = css`
     display: flex;
@@ -69,41 +69,79 @@ const register = css`
     font-weight: 600;
 `;
 
+const errorMsg = css`
+    margin-left: 5px;
+    margin-bottom: 20px;
+    font-size: 12px;
+    color: red;
+`;
+
 const Register = () => {
-    const [registerUser, setRegisterUser] = useState({email:"", password:"", name:""});
+    const [registerUser, setRegisterUser] = useState({
+        email: "",
+        password: "",
+        name: "",
+    });
+
+    const [errorMessages, setErrorMessages] = useState({
+        email: "",
+        password: "",
+        name: "",
+    });
 
     const onChangeHandle = (e) => {
-        const {name, value } = e.target;
-        setRegisterUser({...registerUser, [name]: value});
-    }
+        const { name, value } = e.target;
+        setRegisterUser({ ...registerUser, [name]: value });
+    };
 
-    const registeSubmit = () => {
+    const registeSubmit = async () => {
         const data = {
-            ...registerUser
-        }
+            ...registerUser,
+        };
 
         const option = {
             headers: {
-                'Content-Type': 'application/json'
-            }
-        }
+                "Content-Type": "application/json",
+            },
+        };
 
         // cors 에러
         // 포트 번호가 달라서 일어남
         // 서버에서 원하는 요청의 corsorigin을 풀어줌
         // 비동기(응답이 올때까지 기다리는게 아니고 다음 작업을 계속 실행)
-        axios
-        .post("http://localhost:8080/auth/signup", JSON.stringify(data), option)
-        .then(response => {
-            console.log("성공");
-            console.log(response);
-        })
-        .catch(error => {
-            console.log("에러");
-            console.log(error.response.data);
-        })
-        console.log("비동기 테스트")
-    }
+        try {
+            const response = await axios.post(
+                "http://localhost:8080/auth/signup",
+                JSON.stringify(data),
+                option
+            );
+            setErrorMessages({ email: "", password: "", name: "" });
+        } catch (error) {
+            setErrorMessages({
+                email: "",
+                password: "",
+                name: "",
+                ...error.response.data.errorData,
+            });
+        }
+        // axios.post(
+        //     "http://localhost:8080/auth/signup",
+        //     JSON.stringify(data),
+        //     option
+        // )
+        // .then((response) => {
+        //     setErrorMessages({ email: "", password: "", name: "" });
+        //     console.log(response);
+        // })
+        // .catch((error) => {
+        //     setErrorMessages({
+        //         email: "",
+        //         password: "",
+        //         name: "",
+        //         ...error.response.data.errorData,
+        //     });
+        // });
+    };
 
     return (
         <div css={container}>
@@ -113,25 +151,47 @@ const Register = () => {
             <main css={mainContainer}>
                 <div css={authForm}>
                     <label css={inputLable}>Email</label>
-                    <LoginInput type="email" placeholder="Type your email" onChange={onChangeHandle} name="email">
+                    <LoginInput
+                        type="email"
+                        placeholder="Type your email"
+                        onChange={onChangeHandle}
+                        name="email"
+                    >
                         <FiUser />
                     </LoginInput>
+                    <div css={errorMsg}>{errorMessages.email}</div>
                     <label css={inputLable}>Password</label>
-                    <LoginInput type="password" placeholder="Type your password" onChange={onChangeHandle} name="password">
+                    <LoginInput
+                        type="password"
+                        placeholder="Type your password"
+                        onChange={onChangeHandle}
+                        name="password"
+                    >
                         <FiLock />
                     </LoginInput>
+                    <div css={errorMsg}>{errorMessages.password}</div>
                     <label css={inputLable}>Name</label>
-                    <LoginInput type="text" placeholder="Type your name" onChange={onChangeHandle} name="name">
+                    <LoginInput
+                        type="text"
+                        placeholder="Type your name"
+                        onChange={onChangeHandle}
+                        name="name"
+                    >
                         <BiRename />
                     </LoginInput>
-                    <button css={loginButton} onClick={registeSubmit}>REGISTER</button>
+                    <div css={errorMsg}>{errorMessages.name}</div>
+                    <button css={loginButton} onClick={registeSubmit}>
+                        REGISTER
+                    </button>
                 </div>
             </main>
 
             <div css={signupMessage}>Already a user?</div>
 
             <footer>
-                <div css={register}><Link to="/login">Login</Link></div>
+                <div css={register}>
+                    <Link to="/login">Login</Link>
+                </div>
             </footer>
         </div>
     );

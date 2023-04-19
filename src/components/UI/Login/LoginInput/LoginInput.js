@@ -1,13 +1,13 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
-import React from 'react';
-import Input from '../../atoms/Input/Input';
+import { css } from "@emotion/react";
+import React from "react";
+import Input from "../../atoms/Input/Input";
 
 const loginInput = css`
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     border-bottom: 1px solid #dbdbdb;
-    padding: 0px 5px 0px 40px ;
+    padding: 0px 5px 0px 40px;
     width: 100%;
 `;
 
@@ -27,11 +27,12 @@ const LoginInput = ({ type, placeholder, onChange, name, children }) => {
     return (
         <div css={loginInput}>
             <div css={icon}>{children}</div>
-            <Input 
-            type={type}
-            placeholder={placeholder}
-            onChange={onChange}
-            name={name}/>
+            <Input
+                type={type}
+                placeholder={placeholder}
+                onChange={onChange}
+                name={name}
+            />
         </div>
     );
 };
