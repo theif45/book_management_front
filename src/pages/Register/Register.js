@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import React, { useState } from "react";
 import LoginInput from "../../components/UI/Login/LoginInput/LoginInput";
 import { FiUser, FiLock } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BiRename } from "react-icons/bi";
 import axios from "axios";
 
@@ -77,6 +77,8 @@ const errorMsg = css`
 `;
 
 const Register = () => {
+    const navigate = useNavigate();
+
     const [registerUser, setRegisterUser] = useState({
         email: "",
         password: "",
@@ -110,13 +112,17 @@ const Register = () => {
         // 서버에서 원하는 요청의 corsorigin을 풀어줌
         // 비동기(응답이 올때까지 기다리는게 아니고 다음 작업을 계속 실행)
         try {
-            const response = await axios.post(
+            // then
+            await axios.post(
                 "http://localhost:8080/auth/signup",
                 JSON.stringify(data),
                 option
             );
             setErrorMessages({ email: "", password: "", name: "" });
+            alert("회운가입 성공!");
+            navigate("/login");
         } catch (error) {
+            // catch
             setErrorMessages({
                 email: "",
                 password: "",
