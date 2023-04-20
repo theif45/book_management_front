@@ -3,10 +3,12 @@ import { css } from "@emotion/react";
 import React, { useState } from "react";
 import LoginInput from "../../components/UI/Login/LoginInput/LoginInput";
 import { FiUser, FiLock } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsGoogle } from "react-icons/bs";
 import { SiNaver, SiKakao } from "react-icons/si";
 import axios from "axios";
+import { authenticated } from "../../index";
+import { useRecoilState } from "recoil";
 
 const container = css`
     display: flex;
@@ -131,6 +133,9 @@ const Login = () => {
         password: "",
     });
 
+    const [auth, setAuth] = useRecoilState(authenticated);
+    const navigate = useNavigate;
+
     const onChangeHandler = (e) => {
         const { name, value } = e.target;
         setLoginUser({ ...loginUser, [name]: value });
@@ -149,11 +154,15 @@ const Login = () => {
                 JSON.stringify(loginUser),
                 option
             );
-            console.log(response);
             setErrorMessages({
                 email: "",
                 password: "",
             });
+            const accessToken =
+                response.data.grantType + " " + response.data.accessToken;
+            localStorage.setItem("accessToken", accessToken);
+            setAuth(true);
+            navigate("/");
         } catch (error) {
             console.log(error);
             setErrorMessages({
