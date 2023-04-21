@@ -5,6 +5,7 @@ import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
 import Main from "./pages/Main/Main";
 import AuthRoute from "./components/Routes/AuthRoute/AuthRoute";
+import AuthRouteReactQuery from "./components/Routes/AuthRoute/AuthRouteReactQuery";
 
 function App() {
     return (
@@ -14,17 +15,27 @@ function App() {
                 <Route
                     exact
                     path="/login"
-                    element={<AuthRoute path="/login" element={<Login />} />}
+                    element={
+                        <AuthRouteReactQuery
+                            path="/login"
+                            element={<Login />}
+                        />
+                    }
                 ></Route>
                 <Route
                     path="/register"
                     element={
-                        <AuthRoute path="/register" element={<Register />} />
+                        <AuthRouteReactQuery
+                            path="/register"
+                            element={<Register />}
+                        />
                     }
                 ></Route>
                 <Route
                     path="/"
-                    element={<AuthRoute path="/" element={<Main />} />}
+                    element={
+                        <AuthRouteReactQuery path="/" element={<Main />} />
+                    }
                 />
                 {/* <Route path="/callback" Component={Callback}></Route>
                 <Route path="/promise" Component={PromiseStudy}></Route> */}

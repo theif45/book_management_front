@@ -2,19 +2,8 @@ import React, { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { authenticatedState } from "../../../atoms/Auth/AuthAtoms";
 import { useRecoilState } from "recoil";
-import axios from "axios";
 import { useQuery } from "react-query";
 import { getAuthenticated } from "../../../api/auth/authApi";
-
-const validateToken = async (accessToken) => {
-    const response = await axios.get(
-        "http://localhost:8080/auth/authenticated",
-        {
-            params: { accessToken },
-        }
-    );
-    return response.data;
-};
 
 const AuthRoute = ({ path, element }) => {
     const accessToken = localStorage.getItem("accessToken");
