@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BsGoogle } from "react-icons/bs";
 import { SiNaver, SiKakao } from "react-icons/si";
 import axios from "axios";
-import { authenticated } from "../../index";
+import { authenticatedState } from "../../atoms/Auth/AuthAtoms";
 import { useRecoilState } from "recoil";
 
 const container = css`
@@ -133,8 +133,10 @@ const Login = () => {
         password: "",
     });
 
-    const [auth, setAuth] = useRecoilState(authenticated);
-    const navigate = useNavigate;
+    const [authenticated, setAuthenticated] =
+        useRecoilState(authenticatedState);
+
+    const navigate = useNavigate();
 
     const onChangeHandler = (e) => {
         const { name, value } = e.target;
@@ -161,10 +163,9 @@ const Login = () => {
             const accessToken =
                 response.data.grantType + " " + response.data.accessToken;
             localStorage.setItem("accessToken", accessToken);
-            setAuth(true);
+            setAuthenticated(true);
             navigate("/");
         } catch (error) {
-            console.log(error);
             setErrorMessages({
                 email: "",
                 password: "",
@@ -201,7 +202,7 @@ const Login = () => {
                     </LoginInput>
                     <div css={errorMsg}>{errorMessages.password}</div>
                     <div css={forgotPassword}>
-                        <Link to="/forgot/password">Forgot Password?</Link>
+                        <Link to="/password/forgot">Forgot Password?</Link>
                     </div>
                     <button css={loginButton} onClick={loginSubmit}>
                         LOGIN
