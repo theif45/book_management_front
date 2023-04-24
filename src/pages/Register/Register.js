@@ -113,11 +113,7 @@ const Register = () => {
         // 비동기(응답이 올때까지 기다리는게 아니고 다음 작업을 계속 실행)
         try {
             // then
-            await axios.post(
-                "http://localhost:8080/auth/signup",
-                JSON.stringify(data),
-                option
-            );
+            await axios.post("http://localhost:8080/auth/signup", JSON.stringify(data), option);
             setErrorMessages({ email: "", password: "", name: "" });
             alert("회운가입 성공!");
             navigate("/login");
@@ -157,32 +153,17 @@ const Register = () => {
             <main css={mainContainer}>
                 <div css={authForm}>
                     <label css={inputLable}>Email</label>
-                    <LoginInput
-                        type="email"
-                        placeholder="Type your email"
-                        onChange={onChangeHandle}
-                        name="email"
-                    >
+                    <LoginInput type="email" placeholder="Type your email" onChange={onChangeHandle} name="email">
                         <FiUser />
                     </LoginInput>
                     <div css={errorMsg}>{errorMessages.email}</div>
                     <label css={inputLable}>Password</label>
-                    <LoginInput
-                        type="password"
-                        placeholder="Type your password"
-                        onChange={onChangeHandle}
-                        name="password"
-                    >
+                    <LoginInput type="password" placeholder="Type your password" onChange={onChangeHandle} name="password">
                         <FiLock />
                     </LoginInput>
                     <div css={errorMsg}>{errorMessages.password}</div>
                     <label css={inputLable}>Name</label>
-                    <LoginInput
-                        type="text"
-                        placeholder="Type your name"
-                        onChange={onChangeHandle}
-                        name="name"
-                    >
+                    <LoginInput type="text" placeholder="Type your name" onChange={onChangeHandle} name="name">
                         <BiRename />
                     </LoginInput>
                     <div css={errorMsg}>{errorMessages.name}</div>

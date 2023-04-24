@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BsGoogle } from "react-icons/bs";
 import { SiNaver, SiKakao } from "react-icons/si";
 import axios from "axios";
-import { authenticatedState, refreshState } from "../../atoms/Auth/AuthAtoms";
+import { refreshState } from "../../atoms/Auth/AuthAtoms";
 import { useRecoilState } from "recoil";
 
 const container = css`
@@ -83,23 +83,14 @@ const oauth2 = (provider) => css`
     justify-content: center;
     align-items: center;
     margin: 0px 10px;
-    border: 3px solid
-        ${provider === "google"
-            ? "#0075ff"
-            : provider === "naver"
-            ? "#19ce60"
-            : "#ffdc00"};
+    border: 3px solid ${provider === "google" ? "#0075ff" : provider === "naver" ? "#19ce60" : "#ffdc00"};
     border-radius: 50%;
     width: 50px;
     height: 50px;
     font-size: ${provider === "kakao" ? "30px" : "20px"};
     cursor: pointer;
     &:hover {
-        background-color: ${provider === "google"
-            ? "#0075ff"
-            : provider === "naver"
-            ? "#19ce60"
-            : "#ffdc00"};
+        background-color: ${provider === "google" ? "#0075ff" : provider === "naver" ? "#19ce60" : "#ffdc00"};
     }
 `;
 
@@ -133,9 +124,6 @@ const Login = () => {
         password: "",
     });
 
-    // const [authenticated, setAuthenticated] =
-    //     useRecoilState(authenticatedState);
-
     const [refresh, setRefresh] = useRecoilState(refreshState);
 
     const navigate = useNavigate();
@@ -153,19 +141,13 @@ const Login = () => {
         };
 
         try {
-            const response = await axios.post(
-                "http://localhost:8080/auth/login",
-                JSON.stringify(loginUser),
-                option
-            );
+            const response = await axios.post("http://localhost:8080/auth/login", JSON.stringify(loginUser), option);
             setErrorMessages({
                 email: "",
                 password: "",
             });
-            const accessToken =
-                response.data.grantType + " " + response.data.accessToken;
+            const accessToken = response.data.grantType + " " + response.data.accessToken;
             localStorage.setItem("accessToken", accessToken);
-            // setAuthenticated(true);
             setRefresh(false);
             navigate("/");
         } catch (error) {
@@ -185,22 +167,12 @@ const Login = () => {
             <main css={mainContainer}>
                 <div css={authForm}>
                     <label css={inputLable}>Email</label>
-                    <LoginInput
-                        type="email"
-                        placeholder="Type your email"
-                        onChange={onChangeHandler}
-                        name="email"
-                    >
+                    <LoginInput type="email" placeholder="Type your email" onChange={onChangeHandler} name="email">
                         <FiUser />
                     </LoginInput>
                     <div css={errorMsg}>{errorMessages.email}</div>
                     <label css={inputLable}>Password</label>
-                    <LoginInput
-                        type="password"
-                        placeholder="Type your password"
-                        onChange={onChangeHandler}
-                        name="password"
-                    >
+                    <LoginInput type="password" placeholder="Type your password" onChange={onChangeHandler} name="password">
                         <FiLock />
                     </LoginInput>
                     <div css={errorMsg}>{errorMessages.password}</div>

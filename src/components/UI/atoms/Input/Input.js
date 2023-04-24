@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
-import React from 'react';
+import { css } from "@emotion/react";
+import React from "react";
 
 const input = css`
     border: none;
@@ -13,11 +13,7 @@ const input = css`
 const Input = ({ type, placeholder, onChange, name }) => {
     return (
         <>
-            <input css={input}
-            type={type}
-            placeholder={placeholder}
-            onChange={onChange}
-            name={name}/>
+            <input css={input} type={type} placeholder={placeholder} onChange={onChange} name={name} />
         </>
     );
 };

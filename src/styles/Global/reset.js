@@ -1,4 +1,4 @@
-import { css } from '@emotion/react'
+import { css } from "@emotion/react";
 
 export const Reset = css`
     /* http://meyerweb.com/eric/tools/css/reset/ 
@@ -11,19 +11,87 @@ export const Reset = css`
         color: #333;
     }
 
-    html, body, div, span, applet, object, iframe,
-    h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-    a, abbr, acronym, address, big, cite, code,
-    del, dfn, em, img, ins, kbd, q, s, samp,
-    small, strike, strong, sub, sup, tt, var,
-    b, u, i, center,
-    dl, dt, dd, ol, ul, li,
-    fieldset, form, label, legend,
-    table, caption, tbody, tfoot, thead, tr, th, td,
-    article, aside, canvas, details, embed, 
-    figure, figcaption, footer, header, hgroup, 
-    menu, nav, output, ruby, section, summary,
-    time, mark, audio, video {
+    html,
+    body,
+    div,
+    span,
+    applet,
+    object,
+    iframe,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    blockquote,
+    pre,
+    a,
+    abbr,
+    acronym,
+    address,
+    big,
+    cite,
+    code,
+    del,
+    dfn,
+    em,
+    img,
+    ins,
+    kbd,
+    q,
+    s,
+    samp,
+    small,
+    strike,
+    strong,
+    sub,
+    sup,
+    tt,
+    var,
+    b,
+    u,
+    i,
+    center,
+    dl,
+    dt,
+    dd,
+    ol,
+    ul,
+    li,
+    fieldset,
+    form,
+    label,
+    legend,
+    table,
+    caption,
+    tbody,
+    tfoot,
+    thead,
+    tr,
+    th,
+    td,
+    article,
+    aside,
+    canvas,
+    details,
+    embed,
+    figure,
+    figcaption,
+    footer,
+    header,
+    hgroup,
+    menu,
+    nav,
+    output,
+    ruby,
+    section,
+    summary,
+    time,
+    mark,
+    audio,
+    video {
         margin: 0;
         padding: 0;
         border: 0;
@@ -32,27 +100,45 @@ export const Reset = css`
         vertical-align: baseline;
     }
     /* HTML5 display-role reset for older browsers */
-    article, aside, details, figcaption, figure, 
-    footer, header, hgroup, menu, nav, section {
+    article,
+    aside,
+    details,
+    figcaption,
+    figure,
+    footer,
+    header,
+    hgroup,
+    menu,
+    nav,
+    section {
         display: block;
     }
     body {
-        margin: 0px auto;
-        border: 3px solid #dbdbdb;
-        border-radius: 20px;
-        width: 768px;
-        height: 1000px;
         line-height: 1;
     }
-    ol, ul {
+    #root {
+        position: relative;
+        margin: 10px auto;
+        border: 3px solid #dbdbdb;
+        border-radius: 10px;
+        padding: 10px;
+        width: 750px;
+        height: 900px;
+        overflow: hidden;
+    }
+    ol,
+    ul {
         list-style: none;
     }
-    blockquote, q {
+    blockquote,
+    q {
         quotes: none;
     }
-    blockquote:before, blockquote:after,
-    q:before, q:after {
-        content: '';
+    blockquote:before,
+    blockquote:after,
+    q:before,
+    q:after {
+        content: "";
         content: none;
     }
     table {

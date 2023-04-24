@@ -27,12 +27,7 @@ const LoginInput = ({ type, placeholder, onChange, name, children }) => {
     return (
         <div css={loginInput}>
             <div css={icon}>{children}</div>
-            <Input
-                type={type}
-                placeholder={placeholder}
-                onChange={onChange}
-                name={name}
-            />
+            <Input type={type} placeholder={placeholder} onChange={onChange} name={name} />
         </div>
     );
 };
