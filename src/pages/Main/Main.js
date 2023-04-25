@@ -72,7 +72,7 @@ const main = css`
 const Main = () => {
     const [searchParam, setSearchParam] = useState({
         page: 1,
-        categoryIds: [],
+        categoryIds: "",
         searchValue: "",
     });
     const [refresh, setRefresh] = useState(false);
@@ -156,9 +156,15 @@ const Main = () => {
 
     const categoryCheckHandle = (e) => {
         if (e.target.checked) {
-            setSearchParam({ ...searchParam, categoryIds: [...searchParam.categoryIds, e.target.value] });
+            setSearchParam({
+                ...searchParam,
+                categoryIds: searchParam.categoryIds ? searchParam.categoryIds + ',' + e.target.value : e.target.value,
+            });
         } else {
-            setSearchParam({ ...searchParam, categoryIds: [...searchParam.categoryIds.filter((id) => id !== e.target.value)] });
+            setSearchParam({
+                ...searchParam,
+                categoryIds: searchParam.categoryIds.split(',').filter((id) => id !== e.target.value).join(','),
+            });
         }
     };
 
