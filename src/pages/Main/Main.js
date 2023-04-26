@@ -6,10 +6,12 @@ import BookCard from "../../components/UI/BookCard/BookCard";
 import { useQuery } from "react-query";
 import axios from "axios";
 import { BsMenuDown } from "react-icons/bs";
+import QueryString from "qs";
 
 const mainContainer = css`
     padding: 10px;
 `;
+
 const header = css`
     display: flex;
     justify-content: space-between;
@@ -72,7 +74,7 @@ const main = css`
 const Main = () => {
     const [searchParam, setSearchParam] = useState({
         page: 1,
-        categoryIds: "",
+        categoryIds: [],
         searchValue: "",
     });
     const [refresh, setRefresh] = useState(false);
@@ -95,16 +97,16 @@ const Main = () => {
         observer.observe(lastBookRef.current);
     }, []);
 
-    const option = {
-        params: searchParam,
-        headers: {
-            Authorization: localStorage.getItem("accessToken"),
-        },
-    };
-
     const searchBooks = useQuery(
         ["searchBooks"],
         async () => {
+            const option = {
+                params: searchParam,
+                headers: {
+                    Authorization: localStorage.getItem("accessToken"),
+                },
+                paramsSerializer: (params) => QueryString.stringify(params, { arrayFormat: "repeat" }),
+            };
             const response = await axios.get("http://localhost:8080/books", option);
             return response;
         },
@@ -119,7 +121,7 @@ const Main = () => {
                 setBooks([...books, ...response.data.bookList]);
                 setSearchParam({ ...searchParam, page: searchParam.page + 1 });
             },
-            enabled: refresh && searchParam.page < lastPage + 1,
+            enabled: refresh && (searchParam.page < lastPage + 1 || lastPage === 0),
         }
     );
 
@@ -156,15 +158,23 @@ const Main = () => {
 
     const categoryCheckHandle = (e) => {
         if (e.target.checked) {
-            setSearchParam({
-                ...searchParam,
-                categoryIds: searchParam.categoryIds ? searchParam.categoryIds + ',' + e.target.value : e.target.value,
-            });
+            setSearchParam({ ...searchParam, page: 1, categoryIds: [...searchParam.categoryIds, e.target.value] });
         } else {
-            setSearchParam({
-                ...searchParam,
-                categoryIds: searchParam.categoryIds.split(',').filter((id) => id !== e.target.value).join(','),
-            });
+            setSearchParam({ ...searchParam, page: 1, categoryIds: [...searchParam.categoryIds.filter((id) => id !== e.target.value)] });
+        }
+        setBooks([]);
+        setRefresh(true);
+    };
+
+    const searchInputHandle = (e) => {
+        setSearchParam({ ...searchParam, page: 1, searchValue: e.target.value });
+    };
+
+    const searchSubmitHandle = (e) => {
+        if (e.keyCode === 13) {
+            setSearchParam({ ...searchParam, page: 1 });
+            setBooks([]);
+            setRefresh(true);
         }
     };
 
@@ -192,7 +202,7 @@ const Main = () => {
                                 : ""}
                         </div>
                     </button>
-                    <input css={searchInput} type="search" />
+                    <input css={searchInput} type="search" onInput={searchInputHandle} onKeyUp={searchSubmitHandle} />
                 </div>
             </header>
             <main css={main}>

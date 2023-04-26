@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import {
-    authenticatedState,
-    refreshState,
-} from "../../../atoms/Auth/AuthAtoms";
+import { refreshState } from "../../../atoms/Auth/AuthAtoms";
 import { useRecoilState } from "recoil";
 import axios from "axios";
 import { useQuery } from "react-query";
@@ -15,12 +12,9 @@ const AuthRouteReactQuery = ({ path, element }) => {
         ["authenticated"],
         () => {
             const accessToken = localStorage.getItem("accessToken");
-            const response = axios.get(
-                "http://localhost:8080/auth/authenticated",
-                {
-                    params: { accessToken },
-                }
-            );
+            const response = axios.get("http://localhost:8080/auth/authenticated", {
+                params: { accessToken },
+            });
             return response;
         },
         {

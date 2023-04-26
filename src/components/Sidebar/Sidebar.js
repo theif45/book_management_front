@@ -6,6 +6,7 @@ import ListButton from "./ListButton/ListButton";
 import { BiHome, BiLike, BiListUl, BiLogOut } from "react-icons/bi";
 import { useQuery } from "react-query";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const sidebar = (isOpen) => css`
     position: absolute;
@@ -90,6 +91,7 @@ const footer = css`
 
 const Sidebar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const navigate = useNavigate();
 
     //react query는 이전 데이터에서 바뀌지 않으면 상태도 그대로, 데이터가 바뀌면 상태를 바꿈
     const { data, isLoading } = useQuery(["principal"], async () => {
@@ -120,6 +122,10 @@ const Sidebar = () => {
         }
     };
 
+    const mainClickHandle = () => {
+        navigate("/");
+    };
+
     if (isLoading) {
         return <>Loading...</>;
     }
@@ -138,7 +144,7 @@ const Sidebar = () => {
                     </div>
                 </header>
                 <main css={main}>
-                    <ListButton title="Dashboard">
+                    <ListButton title="Dashboard" onClick={mainClickHandle}>
                         <BiHome />
                     </ListButton>
                     <ListButton title="Likes">
