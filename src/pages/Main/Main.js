@@ -115,7 +115,6 @@ const Main = () => {
                 if (refresh) {
                     setRefresh(false);
                 }
-                console.log(response);
                 const totalCount = response.data.totalCount;
                 setLastPage(totalCount % 20 === 0 ? totalCount / 20 : Math.ceil(totalCount / 20));
                 setBooks([...books, ...response.data.bookList]);
@@ -160,7 +159,11 @@ const Main = () => {
         if (e.target.checked) {
             setSearchParam({ ...searchParam, page: 1, categoryIds: [...searchParam.categoryIds, e.target.value] });
         } else {
-            setSearchParam({ ...searchParam, page: 1, categoryIds: [...searchParam.categoryIds.filter((id) => id !== e.target.value)] });
+            setSearchParam({
+                ...searchParam,
+                page: 1,
+                categoryIds: [...searchParam.categoryIds.filter((id) => id !== e.target.value)],
+            });
         }
         setBooks([]);
         setRefresh(true);
